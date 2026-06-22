@@ -1,6 +1,7 @@
-import { Menu, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 import { Page } from '../../types';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   currentPage: Page;
@@ -9,6 +10,7 @@ interface NavbarProps {
 
 export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +19,11 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handlePageChange = (page: Page) => {
+    setCurrentPage(page);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <>
@@ -29,7 +36,7 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
       >
         <div className="max-w-container-max mx-auto px-gutter flex justify-between items-center h-20">
           <button 
-            onClick={() => setCurrentPage('home')}
+            onClick={() => handlePageChange('home')}
             className="font-display text-[24px] leading-[1.4] font-bold text-primary tracking-tight"
           >
             Deora Properties
@@ -39,7 +46,7 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             {['home', 'properties', 'services', 'about', 'contact'].map((page) => (
               <li key={page}>
                 <button 
-                  onClick={() => setCurrentPage(page as Page)}
+                  onClick={() => handlePageChange(page as Page)}
                   className={`font-body text-[14px] font-semibold tracking-[0.05em] capitalize transition-colors hover:opacity-80 pb-1 ${
                     currentPage === page 
                       ? 'text-primary border-b-2 border-primary' 
@@ -56,10 +63,45 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             Schedule a Consultation
           </button>
           
-          <button className="md:hidden text-primary p-xs focus:outline-none">
-            <Menu size={28} />
+          <button 
+            className="md:hidden text-primary p-xs focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="md:hidden bg-white border-t border-surface-variant overflow-hidden"
+            >
+              <ul className="flex flex-col py-4 px-gutter">
+                {['home', 'properties', 'services', 'about', 'contact'].map((page) => (
+                  <li key={page} className="py-3 border-b border-surface-variant last:border-b-0">
+                    <button 
+                      onClick={() => handlePageChange(page as Page)}
+                      className={`font-body w-full text-left text-[16px] font-semibold capitalize tracking-[0.05em] ${
+                        currentPage === page ? 'text-primary' : 'text-secondary'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  </li>
+                ))}
+                <li className="pt-4">
+                  <button className="w-full bg-primary text-on-primary font-body text-[14px] font-semibold tracking-[0.05em] px-md py-[12px] rounded">
+                    Schedule a Consultation
+                  </button>
+                </li>
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Floating WhatsApp Button */}
