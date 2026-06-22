@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #001d32;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #14324a;
+  --color-on-primary-container: #7f9ab7;
+  --color-primary-fixed: #cee5ff;
+  --color-primary-fixed-dim: #adc9e8;
+  --color-primary-fixed-variant: #2d4962;
+
+  --color-secondary: #5f5e5b;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e5e2dd;
+  --color-on-secondary-container: #656461;
+  --color-secondary-fixed: #e5e2dd;
+  --color-secondary-fixed-dim: #c8c6c2;
+
+  --color-background: #f5fbf7;
+  --color-on-background: #171d1b;
+
+  --color-surface: #f5fbf7;
+  --color-surface-dim: #d5dbd7;
+  --color-surface-bright: #f5fbf7;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff5f1;
+  --color-surface-container: #e9efeb;
+  --color-surface-container-high: #e4eae6;
+  --color-surface-container-highest: #dee4e0;
+  --color-surface-variant: #dee4e0;
+  --color-on-surface: #171d1b;
+  --color-on-surface-variant: #43474d;
+
+  --color-outline: #73777d;
+  --color-outline-variant: #c3c7cd;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 12px;
+  --spacing-md: 24px;
+  --spacing-lg: 48px;
+  --spacing-xl: 80px;
+  --spacing-container-max: 1280px;
+  --spacing-gutter: 24px;
+
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+@layer utilities {
+  .glass-overlay {
+    background-color: rgba(248, 245, 240, 0.85);
+    backdrop-filter: blur(12px);
+  }
+  .soft-shadow {
+    box-shadow: 0 10px 40px rgba(20, 50, 74, 0.05);
+  }
+  .text-shadow-sm {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .minimal-input {
+    border: none;
+    border-bottom: 1px solid var(--color-secondary-fixed-dim);
+    background: transparent;
+    padding: 8px 0;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .minimal-input:focus {
+    border-bottom-color: var(--color-primary);
+  }
+}
